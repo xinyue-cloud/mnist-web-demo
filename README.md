@@ -3,6 +3,8 @@
 * <http://yann.lecun.com/exdb/mnist/>
 * <https://www.tensorflow.org/tutorials/quickstart/beginner>
 
+![](https://raw.githubusercontent.com/xinyue-cloud/mnist-web-demo/master/screenshot.png)
+
 # Requirement
 
 * Python = 3.9
