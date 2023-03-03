@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>手写数字识别</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<header class="container bg-secondary p-2 mb-2">
+  <h1 class="m-0">手写数字识别</h1>
+</header>
+
+<main class="container">
+  <div class="row">
+    <div class="bg-info col-7 p-3 text-center">
+      <div class="flex-wrap">
+        <canvas id="canvas" width="280" height="280"></canvas>
+        <div>
+          <input type="button" id="btnPredict" class="btn btn-sm btn-primary" value="预测">
+          <input type="button" id="btnClear" class="btn btn-sm btn-danger" value="清除">
+          <input type="button" id="btnTestImg" class="btn btn-sm btn-secondary" value="随机测试图片">
+        </div>
+      </div>
+      <div class="m-2 bg-white">
+        预测结果： <span class="predict-result text-danger" style="font-size: 36px;">...</span>
+      </div>
+      <div class="m-2 bg-white">
+        <span id="info"></span>
+      </div>
+    </div>
+    <div class="col-5 bg-success p-3">
+      <h4>预测相似度：</h4>
+      <div id="prediction"></div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-12 p-2 bg-secondary">
+      <h4>以下是6万张训练集中，随机抽取的400张图片。</h4>
+      <img src="{{ url_for('static', filename='random_images.png') }}" alt="随机50张训练图片"/>
+      <h4>该训练模型使用了 7 层神经网络，如下：</h4>
+      <p class="bg-white">
+        # 卷积层: 32个卷积核,卷积核大小为(3,3),激活函数为relu,输入张量的形状为(28,28,1)<br>
+        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),<br>
+        # 池化层: 池化窗口的大小为(2,2),取其中最大的值作为输出.<br>
+        layers.MaxPool2D((2, 2)),<br>
+        # 卷积层: 32个卷积核,卷积核大小为(3,3),激活函数为relu<br>
+        layers.Conv2D(64, (3, 3), activation='relu'),<br>
+        # 池化层: 池化窗口的大小为(2,2)<br>
+        layers.MaxPool2D((2, 2)),<br>
+        # 数据进行了形状变换,从多维数据转换为一维数组<br>
+        layers.Flatten(),<br>
+        # 全连接层: 64个神经元,激活函数为relu<br>
+        layers.Dense(64, activation='relu'),<br>
+        # 全连接层: 10个神经元,激活函数为softmax<br>
+        layers.Dense(10, activation='softmax')
+      </p>
+    </div>
+  </div>
+</main>
+
+<script src="{{ url_for('static',filename='jquery-3.6.3.min.js') }}"></script>
+<script src="{{ url_for('static',filename='index.js') }}"></script>
+<script type="text/javascript">
+  window.appConfig = {
+    rootPath: {{ request.script_root|tojson|safe }}
+  }
+</script>
+</body>
+</html>
