@@ -12,6 +12,7 @@ from keras.datasets import mnist
 from keras.utils import to_categorical
 
 from lib.timer import timer
+import matplotlib.pyplot as plt
 
 model_h5_file = 'saved/model.h5'
 model_json_file = 'saved/model.json'
@@ -63,7 +64,7 @@ def start_train():
         # 第一种训练模型
 
         # 卷积层: 32个卷积核,卷积核大小为(3,3),激活函数为relu,输入张量的形状为(28,28,1)
-        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+        layers.Conv2D(32, (5, 5), activation='relu', input_shape=(28, 28, 1)),
         # 池化层: 池化窗口的大小为(2,2),取其中最大的值作为输出.
         layers.MaxPool2D((2, 2)),
         # 卷积层: 32个卷积核,卷积核大小为(3,3),激活函数为relu
@@ -101,12 +102,37 @@ def start_train():
     log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     tensorboard_callback = callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
-    model.fit(train_data, train_labels, epochs=4, batch_size=128, callbacks=[tensorboard_callback])
+    result = model.fit(train_data, train_labels, epochs=10, batch_size=128,
+                       validation_data=(test_data, test_labels),
+                       callbacks=[tensorboard_callback])
+    history = result.history
+    print("history_key: ", history.keys())
 
-    # 进行测试
-    test_loss, test_acc = model.evaluate(test_data, test_labels, verbose=0)
-    print('Test loss:', test_loss)
-    print('Test accuracy:', test_acc)
+    # 输出“训练损失与验证损失”图
+    loss_values = history['loss']
+    val_loss_values = history['val_loss']
+    epochs = range(1, len(loss_values) + 1)
+    plt.plot(epochs, loss_values, 'bo', label='Training loss')
+    plt.plot(epochs, val_loss_values, 'b', label='Validation loss')
+    plt.title('Training and validation loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.savefig('static/epochs-loss.png')
+    # plt.show()
+
+    # 输出“训练损失与验证损失”图
+    acc_values = history['accuracy']
+    val_acc_values = history['val_accuracy']
+    plt.clf()
+    plt.plot(epochs, acc_values, 'bo', label='Training acc')
+    plt.plot(epochs, val_acc_values, 'b', label='Validation acc')
+    plt.title('Training and validation accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('static/epochs-acc.png')
+    # plt.show()
 
     model_json = model.to_json()
     with open(model_json_file, "w") as json_file:

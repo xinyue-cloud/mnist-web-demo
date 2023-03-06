@@ -13,6 +13,7 @@
 </header>
 
 <main class="container">
+
   <div class="row">
     <div class="bg-info col-7 p-3 text-center">
       <div class="flex-wrap">
@@ -35,10 +36,16 @@
       <div id="prediction"></div>
     </div>
   </div>
+
   <div class="row mt-2">
     <div class="col-12 p-2 bg-secondary">
       <h4>共使用了6万张图片进行训练，以下是其中随机抽取的400张图片。</h4>
       <img src="{{ url_for('static', filename='random_images.png') }}" alt="随机50张训练图片"/>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-12 p-2 bg-secondary">
       <h4>该训练模型使用了 7 层神经网络，如下：</h4>
       <p class="bg-white">
         # 卷积层: 32个卷积核,卷积核大小为(3,3),激活函数为relu,输入张量的形状为(28,28,1)<br>
@@ -58,6 +65,18 @@
       </p>
     </div>
   </div>
+
+  <div class="row mt-2">
+    <div class="col-6 p-2 bg-secondary">
+      <h4>训练损失与验证损失（第4次开始过拟合）</h4>
+      <img alt="训练损失与验证损失" class="w-100" src="{{ url_for('static',filename='epochs-loss.png') }}"/>
+    </div>
+    <div class="col-6 p-2 bg-secondary border-left">
+      <h4>训练精度与验证精度（第4次开始过拟合）</h4>
+      <img alt="训练精度与验证精度" class="w-100" src="{{ url_for('static',filename='epochs-acc.png') }}"/>
+    </div>
+  </div>
+
 </main>
 
 <script src="{{ url_for('static',filename='jquery-3.6.3.min.js') }}"></script>
