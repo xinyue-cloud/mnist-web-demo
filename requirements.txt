@@ -41,7 +41,7 @@ tensorboard==2.11.2
 tensorflow-estimator==2.11.0
 tensorflow-intel==2.11.0
 tensorflow-io-gcs-filesystem==0.31.0
-tensorflow==2.11.0
+tensorflow-gpu==2.11.0
 termcolor==2.2.0
 typing-extensions==4.5.0
 urllib3==1.26.14

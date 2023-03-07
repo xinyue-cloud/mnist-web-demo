@@ -11,7 +11,7 @@ from keras import layers, callbacks
 from keras.datasets import mnist
 from keras.utils import to_categorical
 
-from lib.timer import timer
+from timer import timer
 import matplotlib.pyplot as plt
 
 model_h5_file = 'saved/model.h5'
